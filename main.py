@@ -9,7 +9,8 @@ screen = pygame.display.set_mode((1000, 600))
 # colors
 skyblue = (152, 245, 255)
 
-BGcolor = skyblue
+sky = pygame.image.load('sky.jpg')
+sky = pygame.transform.scale(sky, (1000,710))
 
 
 # defined functions
@@ -37,14 +38,14 @@ bfy = -200
 
 # jet
 jetimg = pygame.image.load('jet-fighter-flipped.png')
-jetx = 10
+jetx = 25
 jety = 300
 jetx_change = 0
 jety_change = 0
 
 run = True
 while run:
-    screen.fill(BGcolor)
+    screen.blit(sky, (0,0))
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
