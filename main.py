@@ -11,6 +11,8 @@ skyblue = (152, 245, 255)
 
 sky = pygame.image.load('sky.jpg')
 sky = pygame.transform.scale(sky, (1000,710))
+skyx = 0
+skyx2 = sky.get_width()
 
 
 # defined functions
@@ -25,6 +27,11 @@ def building():
 def build_flip():
     screen.blit(bfimg, (bfx, bfy))
 
+def redrawWindow():
+    screen.blit(sky, (skyx, 0))
+    screen.blit(sky, (skyx2, 0))
+    
+
 
 # building
 buildimg = pygame.image.load('office-building.png')
@@ -38,14 +45,23 @@ bfy = -200
 
 # jet
 jetimg = pygame.image.load('jet-fighter-flipped.png')
-jetx = 25
+jetx = 35
 jety = 300
 jetx_change = 0
 jety_change = 0
 
+
+pygame.time.set_timer(USEREVENT+1, 500)
+speed = 30
 run = True
 while run:
-    screen.blit(sky, (0,0))
+    redrawWindow()
+    skyx -= 1.5
+    skyx2 -= 1.5
+    if skyx < sky.get_width() * (-1):
+        skyx = sky.get_width()
+    if skyx2 <sky.get_width() * (-1):
+        skyx2 = sky.get_width()
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -53,13 +69,17 @@ while run:
             sys.exit()
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_UP:
-                jety_change = -1
+                jety_change = -3
             if event.key == pygame.K_DOWN:
-                jety_change = 1
+                jety_change = 3
 
         if event.type == pygame.KEYUP:
             if event.key == pygame.K_UP or pygame.K_DOWN:
                 jety_change = 0
+                
+        if event.type == USEREVENT+1:
+            speed += 6
+    pygame.time.Clock().tick(speed)
 
     # jet movement
     jety = jety + jety_change
